@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <base target="_top">
+  <title>Formulario de Pedidos de Títulos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #f3f4f6; font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="p-4 md:p-8 lg:p-12 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 w-full max-w-xl">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Formulario de Pedidos</h1>
+    <p class="text-center text-gray-600 mb-8">Completa tus datos y adjunta la documentación.</p>
+    
+    <form id="requestForm" class="space-y-6">
+      <div>
+        <label for="dni" class="block text-gray-700 font-medium mb-2">N° DNI</label>
+        <input type="text" id="dni" name="dni" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label for="apellido" class="block text-gray-700 font-medium mb-2">APELLIDO</label>
+        <input type="text" id="apellido" name="apellido" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div>
+        <label for="nombre" class="block text-gray-700 font-medium mb-2">NOMBRE</label>
+        <input type="text" id="nombre" name="nombre" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div>
+        <label for="sede" class="block text-gray-700 font-medium mb-2">SEDE</label>
+        <select id="sede" name="sede" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Selecciona una sede</option>
+          <option value="Central">Central</option>
+          <option value="Las Heras">Las Heras</option>
+          <option value="Uspallata">Uspallata</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="carrera" class="block text-gray-700 font-medium mb-2">CARRERA</label>
+        <select id="carrera" name="carrera" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Selecciona una carrera</option>
+          <option value="Turismo">Turismo</option>
+          <option value="Administración de Empresas">Administración de Empresas</option>
+          <option value="Gestión de Marketing">Gestión de Marketing</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="documentacion" class="block text-gray-700 font-medium mb-2">Subí tu documentación</label>
+        <input type="file" id="documentacion" name="documentacion" required class="w-full text-gray-700 bg-white rounded-xl border border-gray-300 p-2">
+      </div>
+
+      <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-blue-700 transition duration-300 shadow-md">
+        Enviar Pedido con Documentación
+      </button>
+    </form>
+
+    <div id="message-container" class="mt-6 text-center text-sm font-medium"></div>
+  </div>
+
+  <script>
+    const URL_WEB_APP = "TU_URL_DE_WEB_APP_AQUI"; // <--- PEGA TU URL AQUÍ
+
+    document.getElementById('requestForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const messageContainer = document.getElementById('message-container');
+      const submitButton = document.getElementById('submitBtn');
+      const fileInput = document.getElementById('documentacion');
+      const file = fileInput.files[0];
+
+      // UI Estado de carga
+      submitButton.disabled = true;
+      submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+      messageContainer.textContent = 'Procesando archivo... espera un momento.';
+      messageContainer.className = 'mt-6 text-center text-sm font-medium text-blue-600';
+
+      try {
+        // 1. Leer archivo y convertirlo a Base64
+        const toBase64 = file => new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+
+        let base64File = await toBase64(file);
+
+        // 2. Preparar el objeto con todos los datos
+        const payload = {
+          dni: document.getElementById('dni').value,
+          apellido: document.getElementById('apellido').value,
+          nombre: document.getElementById('nombre').value,
+          sede: document.getElementById('sede').value,
+          carrera: document.getElementById('carrera').value,
+          archivoData: base64File,
+          nombreArchivo: file.name,
+          tipoArchivo: file.type
+        };
+
+        // 3. Enviar a Google Apps Script
+        await fetch(URL_WEB_APP, {
+          method: 'POST',
+          mode: 'no-cors', // Evita bloqueos de seguridad externos
+          body: JSON.stringify(payload)
+        });
+
+        // 4. Éxito
+        messageContainer.textContent = '¡Pedido enviado con éxito!';
+        messageContainer.className = 'mt-6 text-center text-sm font-medium text-green-600';
+        document.getElementById('requestForm').reset();
+
+      } catch (error) {
+        messageContainer.textContent = 'Error al enviar datos.';
+        messageContainer.className = 'mt-6 text-center text-sm font-medium text-red-600';
+      } finally {
+        submitButton.disabled = false;
+        submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+    });
+  </script>
+</body>
+</html>
