@@ -100,31 +100,47 @@
           body: JSON.stringify(payload)
         });
 
-        // ÉXITO
-        msg.innerHTML = `
-          <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md">
-            <p class="font-bold">¡Envío Exitoso!</p>
-            <p>El pedido y los ${files.length} archivos se registraron correctamente.</p>
-          </div>`;
+        // --- NUEVA LÓGICA DE ÉXITO CON BLOQUEO ---
+        const modal = document.getElementById('successModal');
+        const detail = document.getElementById('successDetail');
         
+        // Configurar mensaje detallado
+        detail.innerText = `El pedido y los ${files.length} archivos se registraron correctamente.`;
+        
+        // Mostrar el modal (quitamos la clase 'hidden')
+        modal.classList.remove('hidden');
+        
+        // Limpiar el formulario de fondo
         document.getElementById('requestForm').reset();
+        msg.innerHTML = ""; // Limpia el mensaje de "Procesando"
 
+        // Esperar 5 segundos y ocultar el modal para permitir un nuevo envío
         setTimeout(() => {
-          msg.innerHTML = "";
-        }, 8000); 
+          modal.classList.add('hidden');
+        }, 9000); 
 
       } catch (error) {
-        msg.innerHTML = `
-          <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md">
-            <p class="font-bold">Error</p>
-            <p>${error}</p>
-          </div>`;
+        // En caso de error, lo seguimos mostrando abajo para no bloquear si algo sale mal
+        msg.innerHTML = `<p class="text-red-600 font-bold">Error: ${error}</p>`;
       } finally {
         btn.disabled = false;
         btn.innerText = "Enviar Pedido con Documentación";
       }
     }); // <--- Aquí faltaba cerrar el listener
+    <div id="successModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform transition-all">
+    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+      <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </div>
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">¡Envío Exitoso!</h2>
+    <p id="successDetail" class="text-gray-600 mb-6">Tu pedido y archivos han sido procesados correctamente.</p>
+    <div class="text-sm text-gray-400">Esta ventana se cerrará automáticamente...</div>
+  </div>
+</div>
   </script>
 </body>
 </html>
+
 
