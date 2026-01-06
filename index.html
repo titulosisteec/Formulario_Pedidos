@@ -83,7 +83,7 @@
         });
       };
 
-      try {
+     try {
         const archivosProcesados = await Promise.all(Array.from(files).map(readAsBase64));
 
         const payload = {
@@ -101,9 +101,21 @@
           body: JSON.stringify(payload)
         });
 
-        msg.innerText = "¡Pedido y " + files.length + " archivos enviados con éxito!";
-        msg.className = "mt-6 text-center font-bold text-green-600";
+        // --- LÓGICA DE ÉXITO MEJORADA ---
+        // 1. Ocultar el formulario temporalmente (opcional) o solo mostrar el aviso
+        msg.innerHTML = `
+          <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md">
+            <p class="font-bold">¡Envío Exitoso!</p>
+            <p>El pedido y los ${files.length} archivos se procesaron correctamente.</p>
+          </div>`;
+        
+        // 2. Limpiar los campos inmediatamente
         document.getElementById('requestForm').reset();
+
+        // 3. Esperar 5 segundos y borrar el mensaje de éxito
+        setTimeout(() => {
+          msg.innerHTML = "";
+        }, 5000); 
 
       } catch (error) {
         msg.innerText = "Error al enviar: " + error;
@@ -112,8 +124,4 @@
         btn.disabled = false;
         btn.innerText = "Enviar Pedido con Documentación";
       }
-    });
-  </script>
-</body>
-</html>
 
