@@ -52,11 +52,11 @@
       </button>
     </form>
 
-    <div id="message-container" class="mt-6 text-center text-sm font-medium"></div>
+    <div id="message-container" class="mt-6"></div>
   </div>
 
   <script>
-    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbz3Ip_2wg77DjI68RoNAHYQUoRP0BM3xJGE9q0zbbCBHeJSKHYkUT1bh8X2RYmcSsb2tQ/exec"; // REEMPLAZA CON TU URL REAL
+    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbz3Ip_2wg77DjI68RoNAHYQUoRP0BM3xJGE9q0zbbCBHeJSKHYkUT1bh8X2RYmcSsb2tQ/exec";
 
     document.getElementById('requestForm').addEventListener('submit', async function(event) {
       event.preventDefault();
@@ -67,8 +67,7 @@
 
       btn.disabled = true;
       btn.innerText = "Subiendo archivos...";
-      msg.innerText = "Procesando " + files.length + " archivo(s)...";
-      msg.className = "mt-6 text-center text-gray-600";
+      msg.innerHTML = `<p class="text-center text-blue-600 font-medium">Procesando ${files.length} archivo(s)...</p>`;
 
       const readAsBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -83,7 +82,7 @@
         });
       };
 
-     try {
+      try {
         const archivosProcesados = await Promise.all(Array.from(files).map(readAsBase64));
 
         const payload = {
@@ -101,27 +100,30 @@
           body: JSON.stringify(payload)
         });
 
-        // --- LÓGICA DE ÉXITO MEJORADA ---
-        // 1. Ocultar el formulario temporalmente (opcional) o solo mostrar el aviso
+        // ÉXITO
         msg.innerHTML = `
           <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md">
             <p class="font-bold">¡Envío Exitoso!</p>
-            <p>El pedido y los ${files.length} archivos se procesaron correctamente.</p>
+            <p>El pedido y los ${files.length} archivos se registraron correctamente.</p>
           </div>`;
         
-        // 2. Limpiar los campos inmediatamente
         document.getElementById('requestForm').reset();
 
-        // 3. Esperar 5 segundos y borrar el mensaje de éxito
         setTimeout(() => {
           msg.innerHTML = "";
         }, 5000); 
 
       } catch (error) {
-        msg.innerText = "Error al enviar: " + error;
-        msg.className = "mt-6 text-center font-bold text-red-600";
+        msg.innerHTML = `
+          <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md">
+            <p class="font-bold">Error</p>
+            <p>${error}</p>
+          </div>`;
       } finally {
         btn.disabled = false;
         btn.innerText = "Enviar Pedido con Documentación";
       }
-
+    }); // <--- Aquí faltaba cerrar el listener
+  </script>
+</body>
+</html>
