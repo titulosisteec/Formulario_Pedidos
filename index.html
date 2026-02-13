@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .campo-archivo {
-      transition: all 0.3s ease;
-    }
-    .campo-archivo:hover {
-      border-color: #3b82f6;
-      background-color: #f8fafc;
-    }
+    .campo-archivo { transition: all 0.3s ease; }
+    .campo-archivo:hover { border-color: #3b82f6; background-color: #f8fafc; }
+    
+    /* Fuerza a que el texto se vea en mayúsculas visualmente */
+    .uppercase-input { text-transform: uppercase; }
+    
+    input:invalid:not(:placeholder-shown) { border-color: #ef4444; }
   </style>
 </head>
 <body class="p-4 md:p-8 lg:p-12 min-h-screen flex items-center justify-center bg-gray-100">
@@ -23,8 +23,13 @@
     <form id="requestForm" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">N° DNI (Sin puntos)</label>
-          <input type="text" id="dni" required class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+          <label class="block text-gray-700 font-medium mb-1 text-sm">N° DNI (8 dígitos)</label>
+          <input type="text" id="dni" required 
+                 pattern="\d{8}" 
+                 maxlength="8" 
+                 placeholder="Ej: 12345678"
+                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                 class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
         </div>
         <div>
           <label class="block text-gray-700 font-medium mb-1 text-sm">SEDE</label>
@@ -39,12 +44,16 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">APELLIDO</label>
-          <input type="text" id="apellido" required class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+          <label class="block text-gray-700 font-medium mb-1 text-sm">APELLIDO (En Mayúsculas)</label>
+          <input type="text" id="apellido" required 
+                 class="uppercase-input w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                 oninput="this.value = this.value.toUpperCase()">
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">NOMBRE</label>
-          <input type="text" id="nombre" required class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+          <label class="block text-gray-700 font-medium mb-1 text-sm">NOMBRE (En Mayúsculas)</label>
+          <input type="text" id="nombre" required 
+                 class="uppercase-input w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+                 oninput="this.value = this.value.toUpperCase()">
         </div>
       </div>
 
@@ -61,28 +70,28 @@
       <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 space-y-4">
         <h2 class="text-blue-800 font-bold text-lg mb-2 flex items-center">
           <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
-          Documentación Obligatoria
+          Documentación Obligatoria (Solo PDF)
         </h2>
 
         <div class="space-y-3">
           <div>
             <label class="block text-xs font-bold text-gray-600 uppercase">1° Partida de Nacimiento</label>
-            <input type="file" id="file_partida" accept=".pdf,image/*" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+            <input type="file" id="file_partida" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">2° Copia DNI (Frente y Dorso)</label>
-            <input type="file" id="file_dni" accept=".pdf,image/*" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+            <label class="block text-xs font-bold text-gray-600 uppercase">2° Copia DNI (Un solo PDF)</label>
+            <input type="file" id="file_dni" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
           </div>
 
           <div>
             <label class="block text-xs font-bold text-gray-600 uppercase">3° CUIL</label>
-            <input type="file" id="file_cuil" accept=".pdf,image/*" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+            <input type="file" id="file_cuil" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">4° Analítico de Secundario o Terciario</label>
-            <input type="file" id="file_analitico" accept=".pdf,image/*" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+            <label class="block text-xs font-bold text-gray-600 uppercase">4° Analítico</label>
+            <input type="file" id="file_analitico" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
           </div>
         </div>
       </div>
@@ -103,7 +112,7 @@
         </svg>
       </div>
       <h2 class="text-2xl font-bold text-gray-800 mb-2">¡Envío Exitoso!</h2>
-      <p id="successDetail" class="text-gray-600 mb-6">Tu documentación ha sido procesada y organizada correctamente.</p>
+      <p id="successDetail" class="text-gray-600 mb-6">Tu documentación ha sido procesada correctamente.</p>
       <div class="text-sm text-gray-400">Esta ventana se cerrará automáticamente...</div>
     </div>
   </div>
@@ -117,11 +126,16 @@
       const msg = document.getElementById('message-container');
       const btn = document.getElementById('submitBtn');
       
+      // Validación extra de DNI
+      if (document.getElementById('dni').value.length !== 8) {
+        msg.innerHTML = `<p class="text-red-600 font-bold text-center">El DNI debe tener 8 dígitos.</p>`;
+        return;
+      }
+
       btn.disabled = true;
       btn.innerText = "Subiendo y organizando archivos...";
-      msg.innerHTML = `<p class="text-center text-blue-600 font-medium italic">Esto puede tardar unos segundos...</p>`;
+      msg.innerHTML = `<p class="text-center text-blue-600 font-medium italic">Procesando documentación...</p>`;
 
-      // Configuración de archivos con nombres fijos
       const configArchivos = [
         { id: 'file_partida', nombreFijo: '1-Partida_Nacimiento' },
         { id: 'file_dni', nombreFijo: '2-Copia_DNI' },
@@ -134,7 +148,7 @@
           const reader = new FileReader();
           reader.onload = () => resolve({
             base64: reader.result,
-            nombre: nuevoNombre, // Enviamos el nombre fijo al servidor
+            nombre: nuevoNombre,
             tipo: file.type
           });
           reader.onerror = reject;
@@ -144,7 +158,6 @@
 
       try {
         const archivosPromesas = [];
-        
         configArchivos.forEach(conf => {
           const input = document.getElementById(conf.id);
           if (input.files.length > 0) {
@@ -169,7 +182,6 @@
           body: JSON.stringify(payload)
         });
 
-        // Éxito
         const modal = document.getElementById('successModal');
         modal.classList.remove('hidden');
         document.getElementById('requestForm').reset();
@@ -180,7 +192,7 @@
         }, 6000); 
 
       } catch (error) {
-        msg.innerHTML = `<p class="text-red-600 font-bold text-center">Ocurrió un error: ${error}</p>`;
+        msg.innerHTML = `<p class="text-red-600 font-bold text-center">Error: ${error}</p>`;
       } finally {
         btn.disabled = false;
         btn.innerText = "Enviar Pedido con Documentación";
