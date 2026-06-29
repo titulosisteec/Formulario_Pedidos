@@ -7,34 +7,26 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .campo-archivo { transition: all 0.3s ease; }
-    .campo-archivo:hover { border-color: #3b82f6; background-color: #f8fafc; }
-    
-    /* Fuerza a que el texto se vea en mayúsculas visualmente */
     .uppercase-input { text-transform: uppercase; }
-    
-    input:invalid:not(:placeholder-shown) { border-color: #ef4444; }
   </style>
 </head>
-<body class="p-4 md:p-8 lg:p-12 min-h-screen flex items-center justify-center bg-gray-100">
+<body class="bg-gray-100 p-4 md:p-8 flex items-center justify-center min-h-screen">
 
-  <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 w-full max-w-xl">
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Formulario de Pedidos</h1>
+  <div class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-xl">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Formulario de Pedidos</h1>
     
-    <form id="requestForm" class="space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form id="requestForm" class="space-y-5">
+      <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">N° DNI (8 dígitos)</label>
-          <input type="text" id="dni" required 
-                 pattern="\d{8}" 
-                 maxlength="8" 
-                 placeholder="Ej: 12345678"
+          <label class="block text-xs font-bold text-gray-600">DNI (8 DÍGITOS)</label>
+          <input type="text" id="dni" required pattern="\d{8}" maxlength="8" 
                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                 class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
+                 class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">SEDE</label>
-          <select id="sede" required class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
-            <option value="">Selecciona una sede</option>
+          <label class="block text-xs font-bold text-gray-600">SEDE</label>
+          <select id="sede" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            <option value="">Seleccionar...</option>
             <option value="Central">Central</option>
             <option value="Las Heras">Las Heras</option>
             <option value="Uspallata">Uspallata</option>
@@ -42,160 +34,107 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">APELLIDO (En Mayúsculas)</label>
-          <input type="text" id="apellido" required 
-                 class="uppercase-input w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                 oninput="this.value = this.value.toUpperCase()">
+          <label class="block text-xs font-bold text-gray-600">APELLIDO</label>
+          <input type="text" id="apellido" required oninput="this.value = this.value.toUpperCase()"
+                 class="uppercase-input w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
         </div>
         <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">NOMBRE (En Mayúsculas)</label>
-          <input type="text" id="nombre" required 
-                 class="uppercase-input w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                 oninput="this.value = this.value.toUpperCase()">
+          <label class="block text-xs font-bold text-gray-600">NOMBRE</label>
+          <input type="text" id="nombre" required oninput="this.value = this.value.toUpperCase()"
+                 class="uppercase-input w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
         </div>
       </div>
 
       <div>
-        <label class="block text-gray-700 font-medium mb-1 text-sm">CARRERA</label>
-        <select id="carrera" required class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
-          <option value="">Selecciona una carrera</option>
+        <label class="block text-xs font-bold text-gray-600">CARRERA</label>
+        <select id="carrera" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+          <option value="">Seleccionar...</option>
           <option value="Turismo">Turismo</option>
           <option value="Administración de Empresas">Administración de Empresas</option>
           <option value="Gestión de Marketing">Gestión de Marketing</option>
         </select>
       </div>
 
-      <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 space-y-4">
-        <h2 class="text-blue-800 font-bold text-lg mb-2 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
-          Documentación Obligatoria (Solo PDF)
-        </h2>
-
-        <div class="space-y-3">
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">1° Partida de Nacimiento</label>
-            <input type="file" id="file_partida" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">2° Copia DNI (Un solo PDF)</label>
-            <input type="file" id="file_dni" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">3° CUIL</label>
-            <input type="file" id="file_cuil" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">4° Analítico</label>
-            <input type="file" id="file_analitico" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-          </div>
+      <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 space-y-3">
+        <h2 class="text-blue-800 font-bold text-sm mb-2">DOCUMENTACIÓN (Solo PDF)</h2>
+        <div>
+          <label class="block text-[10px] uppercase font-bold text-gray-600">1° Partida de Nacimiento</label>
+          <input type="file" id="file_partida" accept="application/pdf" required class="w-full text-sm">
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase font-bold text-gray-600">2° Copia DNI</label>
+          <input type="file" id="file_dni" accept="application/pdf" required class="w-full text-sm">
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase font-bold text-gray-600">3° CUIL</label>
+          <input type="file" id="file_cuil" accept="application/pdf" required class="w-full text-sm">
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase font-bold text-gray-600">4° Analítico</label>
+          <input type="file" id="file_analitico" accept="application/pdf" required class="w-full text-sm">
         </div>
       </div>
 
-      <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-blue-700 shadow-lg transition transform hover:-translate-y-1">
-        Enviar Pedido con Documentación
+      <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">
+        ENVIAR PEDIDO
       </button>
     </form>
-
-    <div id="message-container" class="mt-6"></div>
-  </div>
-
-  <div id="successModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl">
-      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
-        <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <h2 class="text-2xl font-bold text-gray-800 mb-2">¡Envío Exitoso!</h2>
-      <p id="successDetail" class="text-gray-600 mb-6">Tu documentación ha sido procesada correctamente.</p>
-      <div class="text-sm text-gray-400">Esta ventana se cerrará automáticamente...</div>
-    </div>
+    <div id="message-container" class="mt-4 text-center text-sm font-medium"></div>
   </div>
 
   <script>
-    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbwBoxwLMla0DcTkYUhuUs5ubcFuKyzT6CWoZBuEtTesaFTnqIeXUDGYNAys5fgJVIPNTQ/exec";
+    // PEGA AQUÍ TU URL DE IMPLEMENTACIÓN DE GOOGLE APPS SCRIPT
+    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzsSM5DqN0MVsB3TeqPuUvuk1PUXyQiVyJoPeWgaAROOR8ID6kjpzRIsiITkIJn7zzXWg/exec";
 
-    document.getElementById('requestForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
-
-      const msg = document.getElementById('message-container');
+    document.getElementById('requestForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
       const btn = document.getElementById('submitBtn');
+      const msg = document.getElementById('message-container');
       
-      // Validación extra de DNI
-      if (document.getElementById('dni').value.length !== 8) {
-        msg.innerHTML = `<p class="text-red-600 font-bold text-center">El DNI debe tener 8 dígitos.</p>`;
-        return;
-      }
-
       btn.disabled = true;
-      btn.innerText = "Subiendo y organizando archivos...";
-      msg.innerHTML = `<p class="text-center text-blue-600 font-medium italic">Procesando documentación...</p>`;
-
-      const configArchivos = [
-        { id: 'file_partida', nombreFijo: '1-Partida_Nacimiento' },
-        { id: 'file_dni', nombreFijo: '2-Copia_DNI' },
-        { id: 'file_cuil', nombreFijo: '3-CUIL' },
-        { id: 'file_analitico', nombreFijo: '4-Analitico_Secundario_Terciario' }
-      ];
-
-      const readAsBase64 = (file, nuevoNombre) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve({
-            base64: reader.result,
-            nombre: nuevoNombre,
-            tipo: file.type
-          });
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      };
+      btn.innerText = "Procesando...";
+      msg.innerHTML = "Subiendo al servidor...";
 
       try {
-        const archivosPromesas = [];
-        configArchivos.forEach(conf => {
-          const input = document.getElementById(conf.id);
-          if (input.files.length > 0) {
-            archivosPromesas.push(readAsBase64(input.files[0], conf.nombreFijo));
-          }
-        });
+        const config = [
+          {id: 'file_partida', name: '1-Partida_Nacimiento'},
+          {id: 'file_dni', name: '2-Copia_DNI'},
+          {id: 'file_cuil', name: '3-CUIL'},
+          {id: 'file_analitico', name: '4-Analitico'}
+        ];
 
-        const archivosProcesados = await Promise.all(archivosPromesas);
+        const files = await Promise.all(config.map(async c => {
+          const file = document.getElementById(c.id).files[0];
+          return new Promise(res => {
+            const reader = new FileReader();
+            reader.onload = e => res({nombre: c.name, base64: e.target.result, tipo: file.type});
+            reader.readAsDataURL(file);
+          });
+        }));
 
-        const payload = {
-          dni: document.getElementById('dni').value,
-          apellido: document.getElementById('apellido').value,
-          nombre: document.getElementById('nombre').value,
-          sede: document.getElementById('sede').value,
-          carrera: document.getElementById('carrera').value,
-          listaArchivos: archivosProcesados
-        };
-
-        await fetch(URL_WEB_APP, {
+        const response = await fetch(URL_WEB_APP, {
           method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(payload)
+          mode: 'no-cors', // Mantenemos no-cors para evitar bloqueo, si falla, avísame.
+          body: JSON.stringify({
+            dni: document.getElementById('dni').value,
+            apellido: document.getElementById('apellido').value,
+            nombre: document.getElementById('nombre').value,
+            sede: document.getElementById('sede').value,
+            carrera: document.getElementById('carrera').value,
+            listaArchivos: files
+          })
         });
 
-        const modal = document.getElementById('successModal');
-        modal.classList.remove('hidden');
+        msg.innerHTML = "<span class='text-green-600'>¡Enviado exitosamente!</span>";
         document.getElementById('requestForm').reset();
-        msg.innerHTML = ""; 
-
-        setTimeout(() => {
-          modal.classList.add('hidden');
-        }, 6000); 
-
-      } catch (error) {
-        msg.innerHTML = `<p class="text-red-600 font-bold text-center">Error: ${error}</p>`;
+      } catch (err) {
+        console.error("Error completo:", err);
+        msg.innerHTML = "<span class='text-red-600'>Error al enviar. Revisa la consola (F12).</span>";
       } finally {
         btn.disabled = false;
-        btn.innerText = "Enviar Pedido con Documentación";
+        btn.innerText = "ENVIAR PEDIDO";
       }
     });
   </script>
