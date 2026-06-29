@@ -86,7 +86,7 @@
 
   <script>
     // PEGA AQUÍ TU URL DE IMPLEMENTACIÓN DE GOOGLE APPS SCRIPT
-    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzsSM5DqN0MVsB3TeqPuUvuk1PUXyQiVyJoPeWgaAROOR8ID6kjpzRIsiITkIJn7zzXWg/exec";
+    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbwG_nYFDyyWfehX6tqPGbCKk_FyRsk9j2iH-26R4Z01ewQ0qttCSvH344TwYZb8XW10/exec";
 
     document.getElementById('requestForm').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -117,6 +117,7 @@
         const response = await fetch(URL_WEB_APP, {
           method: 'POST',
           mode: 'no-cors', // Mantenemos no-cors para evitar bloqueo, si falla, avísame.
+          redirect: 'follow', // <--- ESTO ES LO QUE SOLUCIONA EL 302
           body: JSON.stringify({
             dni: document.getElementById('dni').value,
             apellido: document.getElementById('apellido').value,
