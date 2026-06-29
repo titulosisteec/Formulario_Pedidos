@@ -118,7 +118,7 @@
   </div>
 
   <script>
-    const URL_WEB_APP = "TU_URL_DE_IMPLEMENTACION_AQUI";
+    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbwX1boqRhrksO-RlSiWARHyq9DUftg9Z7lZ2EGQ5auGBzdwQH4UM2QvjMhyGdYrSvyhnQ/exec";
 
     document.getElementById('requestForm').addEventListener('submit', async function(event) {
       event.preventDefault();
