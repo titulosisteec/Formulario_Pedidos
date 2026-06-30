@@ -1,53 +1,68 @@
 <!DOCTYPE html>
-<html>
-<body>
-  <form id="miFormulario">
-    <label>N° DNI (8 dígitos):</label><br>
-    <input type="number" id="dni" required><br>
-    
-    <label>APELLIDO (En Mayúsculas):</label><br>
-    <input type="text" id="apellido" required><br>
-    
-    <label>NOMBRE (En Mayúsculas):</label><br>
-    <input type="text" id="nombre" required><br>
-    
-    <label>SEDE:</label><br>
-    <select id="sede" required>
-      <option value="">Selecciona una sede</option>
-      <option value="Central">Central</option>
-      <option value="Las Heras">Las Heras</option>
-      <option value="Uspallata">Uspallata</option>
-    </select><br>
-    
-    <label>CARRERA:</label><br>
-    <select id="carrera" required>
-      <option value="">Selecciona una carrera</option>
-      <option value="Tecnicatura">Tecnicatura</option>
-      <option value="Licenciatura">Licenciatura</option>
-    </select><br>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Formulario de Pedidos</title>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Formulario de Pedidos</h2>
+        <form id="miFormulario" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">N° DNI (8 dígitos)</label>
+                <input type="number" id="dni" required class="mt-1 w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">APELLIDO</label>
+                <input type="text" id="apellido" required class="mt-1 w-full p-2 border rounded uppercase">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">NOMBRE</label>
+                <input type="text" id="nombre" required class="mt-1 w-full p-2 border rounded uppercase">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">SEDE</label>
+                <select id="sede" required class="mt-1 w-full p-2 border rounded">
+                    <option value="">Selecciona una sede</option>
+                    <option value="Central">Central</option>
+                    <option value="Las Heras">Las Heras</option>
+                    <option value="Uspallata">Uspallata</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">CARRERA</label>
+                <select id="carrera" required class="mt-1 w-full p-2 border rounded">
+                    <option value="">Selecciona una carrera</option>
+                    <option value="Tecnicatura">Tecnicatura</option>
+                    <option value="Licenciatura">Licenciatura</option>
+                </select>
+            </div>
+            <button type="button" onclick="enviar()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition font-bold">Enviar Pedido</button>
+        </form>
+    </div>
 
-    <button type="button" onclick="enviar()">Enviar Pedido</button>
-  </form>
+    <script>
+        function enviar() {
+            // Asegúrate de pegar AQUÍ tu URL de Apps Script (terminada en /exec)
+            const url = "TU_URL_DE_APPSCRIPT_AQUI"; 
+            const datos = {
+                dni: document.getElementById('dni').value,
+                apellido: document.getElementById('apellido').value.toUpperCase(),
+                nombre: document.getElementById('nombre').value.toUpperCase(),
+                sede: document.getElementById('sede').value,
+                carrera: document.getElementById('carrera').value
+            };
 
-  <script>
-    function enviar() {
-      const url = "TU_URL_DE_APPSCRIPT_AQUI"; 
-      const datos = {
-        dni: document.getElementById('dni').value,
-        apellido: document.getElementById('apellido').value.toUpperCase(),
-        nombre: document.getElementById('nombre').value.toUpperCase(),
-        sede: document.getElementById('sede').value,
-        carrera: document.getElementById('carrera').value
-      };
-
-      fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos)
-      })
-      .then(res => res.text())
-      .then(res => alert("Respuesta: " + res));
-    }
-  </script>
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            })
+            .then(res => res.text())
+            .then(res => alert("¡Éxito! " + res))
+            .catch(err => alert("Error: " + err));
+        }
+    </script>
 </body>
 </html>
