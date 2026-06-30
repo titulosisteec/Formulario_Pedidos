@@ -2,10 +2,16 @@
 <html>
 <body>
   <form id="miFormulario">
-    <input type="number" id="dni" placeholder="DNI" required><br>
-    <input type="text" id="apellido" placeholder="APELLIDO" required><br>
-    <input type="text" id="nombre" placeholder="NOMBRE" required><br>
+    <label>N° DNI (8 dígitos):</label><br>
+    <input type="number" id="dni" required><br>
     
+    <label>APELLIDO (En Mayúsculas):</label><br>
+    <input type="text" id="apellido" required><br>
+    
+    <label>NOMBRE (En Mayúsculas):</label><br>
+    <input type="text" id="nombre" required><br>
+    
+    <label>SEDE:</label><br>
     <select id="sede" required>
       <option value="">Selecciona una sede</option>
       <option value="Central">Central</option>
@@ -13,6 +19,7 @@
       <option value="Uspallata">Uspallata</option>
     </select><br>
     
+    <label>CARRERA:</label><br>
     <select id="carrera" required>
       <option value="">Selecciona una carrera</option>
       <option value="Tecnicatura">Tecnicatura</option>
@@ -24,7 +31,7 @@
 
   <script>
     function enviar() {
-      const url = "https://script.google.com/macros/s/AKfycbzt-jusq5N5SrU3s0TTK_AVdlW5cgpEQVNqB3chyeEoCAJunHed3eCtO0jitF8XtqMD/exec"; 
+      const url = "TU_URL_DE_APPSCRIPT_AQUI"; 
       const datos = {
         dni: document.getElementById('dni').value,
         apellido: document.getElementById('apellido').value.toUpperCase(),
