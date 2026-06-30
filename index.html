@@ -1,210 +1,46 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-  <base target="_top">
-  <title>Formulario de Pedidos de Títulos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .campo-archivo { transition: all 0.3s ease; }
-    .campo-archivo:hover { border-color: #3b82f6; background-color: #f8fafc; }
+<html>
+<body>
+  <form id="miFormulario">
+    <input type="number" id="dni" placeholder="DNI" required><br>
+    <input type="text" id="apellido" placeholder="APELLIDO" required><br>
+    <input type="text" id="nombre" placeholder="NOMBRE" required><br>
     
-    /* Fuerza a que el texto se vea en mayúsculas visualmente */
-    .uppercase-input { text-transform: uppercase; }
+    <select id="sede" required>
+      <option value="">Selecciona una sede</option>
+      <option value="Central">Central</option>
+      <option value="Las Heras">Las Heras</option>
+      <option value="Uspallata">Uspallata</option>
+    </select><br>
     
-    input:invalid:not(:placeholder-shown) { border-color: #ef4444; }
-  </style>
-</head>
-<body class="p-4 md:p-8 lg:p-12 min-h-screen flex items-center justify-center bg-gray-100">
+    <select id="carrera" required>
+      <option value="">Selecciona una carrera</option>
+      <option value="Tecnicatura">Tecnicatura</option>
+      <option value="Licenciatura">Licenciatura</option>
+    </select><br>
 
-  <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 w-full max-w-xl">
-    <h1 class="text-3xl font-bold text-center text-gray-500 mb-6">Títulos y Certificaciones ISTEEC 9-013</h1>
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Formulario de Pedidos</h1>
-    
-    <form id="requestForm" class="space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">N° DNI (8 dígitos)</label>
-          <input type="text" id="dni" required 
-                 pattern="\d{8}" 
-                 maxlength="8" 
-                 placeholder="Ej: 12345678"
-                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                 class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">SEDE</label>
-          <select id="sede" required class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
-            <option value="">Selecciona una sede</option>
-            <option value="Central">Central</option>
-            <option value="Las Heras">Las Heras</option>
-            <option value="Uspallata">Uspallata</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">APELLIDO (En Mayúsculas)</label>
-          <input type="text" id="apellido" required 
-                 class="uppercase-input w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                 oninput="this.value = this.value.toUpperCase()">
-        </div>
-        <div>
-          <label class="block text-gray-700 font-medium mb-1 text-sm">NOMBRE (En Mayúsculas)</label>
-          <input type="text" id="nombre" required 
-                 class="uppercase-input w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
-                 oninput="this.value = this.value.toUpperCase()">
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-gray-700 font-medium mb-1 text-sm">CARRERA</label>
-        <select id="carrera" required class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none">
-          <option value="">Selecciona una carrera</option>
-          <option value="Turismo">Turismo</option>
-          <option value="Administración de Empresas">Administración de Empresas</option>
-          <option value="Gestión de Marketing">Gestión de Marketing</option>
-        </select>
-      </div>
-
-      <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 space-y-4">
-        <h2 class="text-blue-800 font-bold text-lg mb-2 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
-          Documentación Obligatoria (Solo PDF)
-        </h2>
-
-        <div class="space-y-3">
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">1° Partida de Nacimiento</label>
-            <input type="file" id="file_partida" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">2° Copia DNI (Un solo PDF)</label>
-            <input type="file" id="file_dni" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">3° CUIL</label>
-            <input type="file" id="file_cuil" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase">4° Analítico</label>
-            <input type="file" id="file_analitico" accept="application/pdf" required class="campo-archivo w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-          </div>
-        </div>
-      </div>
-
-      <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-blue-700 shadow-lg transition transform hover:-translate-y-1">
-        Enviar Pedido con Documentación
-      </button>
-    </form>
-
-    <div id="message-container" class="mt-6"></div>
-  </div>
-
-  <div id="successModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl">
-      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
-        <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-      </div>
-      <h2 class="text-2xl font-bold text-gray-800 mb-2">¡Envío Exitoso!</h2>
-      <p id="successDetail" class="text-gray-600 mb-6">Tu documentación ha sido procesada correctamente.</p>
-      <div class="text-sm text-gray-400">Esta ventana se cerrará automáticamente...</div>
-    </div>
-  </div>
+    <button type="button" onclick="enviar()">Enviar Pedido</button>
+  </form>
 
   <script>
-    const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbzYo2ZUaKrrRub-9FlyXK9ksF0Yvg3QE0R_N6LWgNHBJIWYQvD0s6V6w_J4B18HMGQsVw/exec";
-
-    document.getElementById('requestForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
-
-      const msg = document.getElementById('message-container');
-      const btn = document.getElementById('submitBtn');
-      
-      // Validación extra de DNI
-      if (document.getElementById('dni').value.length !== 8) {
-        msg.innerHTML = `<p class="text-red-600 font-bold text-center">El DNI debe tener 8 dígitos.</p>`;
-        return;
-      }
-
-      btn.disabled = true;
-      btn.innerText = "Subiendo y organizando archivos...";
-      msg.innerHTML = `<p class="text-center text-blue-600 font-medium italic">Procesando documentación...</p>`;
-
-      const configArchivos = [
-        { id: 'file_partida', nombreFijo: '1-Partida_Nacimiento' },
-        { id: 'file_dni', nombreFijo: '2-Copia_DNI' },
-        { id: 'file_cuil', nombreFijo: '3-CUIL' },
-        { id: 'file_analitico', nombreFijo: '4-Analitico_Secundario_Terciario' }
-      ];
-
-      const readAsBase64 = (file, nuevoNombre) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve({
-            base64: reader.result,
-            nombre: nuevoNombre,
-            tipo: file.type
-          });
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
+    function enviar() {
+      const url = "https://script.google.com/macros/s/AKfycbzt-jusq5N5SrU3s0TTK_AVdlW5cgpEQVNqB3chyeEoCAJunHed3eCtO0jitF8XtqMD/exec"; 
+      const datos = {
+        dni: document.getElementById('dni').value,
+        apellido: document.getElementById('apellido').value.toUpperCase(),
+        nombre: document.getElementById('nombre').value.toUpperCase(),
+        sede: document.getElementById('sede').value,
+        carrera: document.getElementById('carrera').value
       };
 
-      try {
-        const archivosPromesas = [];
-        configArchivos.forEach(conf => {
-          const input = document.getElementById(conf.id);
-          if (input.files.length > 0) {
-            archivosPromesas.push(readAsBase64(input.files[0], conf.nombreFijo));
-          }
-        });
-
-        const archivosProcesados = await Promise.all(archivosPromesas);
-
-        const payload = {
-          dni: document.getElementById('dni').value,
-          apellido: document.getElementById('apellido').value,
-          nombre: document.getElementById('nombre').value,
-          sede: document.getElementById('sede').value,
-          carrera: document.getElementById('carrera').value,
-          listaArchivos: archivosProcesados
-        };
-
-        await fetch(URL_WEB_APP, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(payload)
-        });
-
-        const modal = document.getElementById('successModal');
-        modal.classList.remove('hidden');
-        document.getElementById('requestForm').reset();
-        msg.innerHTML = ""; 
-
-        setTimeout(() => {
-          modal.classList.add('hidden');
-        }, 6000); 
-
-      } catch (error) {
-        msg.innerHTML = `<p class="text-red-600 font-bold text-center">Error: ${error}</p>`;
-      } finally {
-        btn.disabled = false;
-        btn.innerText = "Enviar Pedido con Documentación";
-      }
-    });
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
+      })
+      .then(res => res.text())
+      .then(res => alert("Respuesta: " + res));
+    }
   </script>
 </body>
 </html>
-
-
-
-
-
-
