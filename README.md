@@ -1,46 +1,37 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta charset="UTF-8">
+</head>
 <body>
-  <form id="miFormulario">
-    <input type="number" id="dni" placeholder="DNI" required><br>
-    <input type="text" id="apellido" placeholder="APELLIDO" required><br>
-    <input type="text" id="nombre" placeholder="NOMBRE" required><br>
-    
-    <select id="sede" required>
-      <option value="">Selecciona una sede</option>
-      <option value="Central">Central</option>
-      <option value="Las Heras">Las Heras</option>
-      <option value="Uspallata">Uspallata</option>
-    </select><br>
-    
-    <select id="carrera" required>
-      <option value="">Selecciona una carrera</option>
-      <option value="Tecnicatura">Tecnicatura</option>
-      <option value="Licenciatura">Licenciatura</option>
-    </select><br>
+    <form id="miFormulario">
+        <input type="text" id="dni" placeholder="DNI"><br>
+        <input type="text" id="apellido" placeholder="Apellido"><br>
+        <input type="text" id="nombre" placeholder="Nombre"><br>
+        <button type="button" id="btnEnviar">Enviar Datos</button>
+    </form>
 
-    <button type="button" onclick="enviar()">Enviar Pedido</button>
-  </form>
+    <script>
+        document.getElementById('btnEnviar').addEventListener('click', function() {
+            alert("Botón clickeado"); // Si esto NO sale, el JS no carga.
 
-  <script>
-    function enviar() {
-      const url = "https://script.google.com/macros/s/AKfycbzt-jusq5N5SrU3s0TTK_AVdlW5cgpEQVNqB3chyeEoCAJunHed3eCtO0jitF8XtqMD/exec"; 
-      const datos = {
-        dni: document.getElementById('dni').value,
-        apellido: document.getElementById('apellido').value.toUpperCase(),
-        nombre: document.getElementById('nombre').value.toUpperCase(),
-        sede: document.getElementById('sede').value,
-        carrera: document.getElementById('carrera').value
-      };
+            const url = "https://script.google.com/macros/s/AKfycbxP4STE34AuY6kYkT-9OltPOGRD6pQXyZQV6GjGb-91rtKsgxSeZgdGk8G0LzWhB0SD1w/exec";
+            
+            const datos = {
+                dni: document.getElementById('dni').value,
+                apellido: document.getElementById('apellido').value,
+                nombre: document.getElementById('nombre').value
+            };
 
-      fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos)
-      })
-      .then(res => res.text())
-      .then(res => alert("Respuesta: " + res));
-    }
-  </script>
+            fetch(url, {
+                method: 'POST',
+                mode: 'no-cors', // Fundamental para saltar errores de origen
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            })
+            .then(() => alert("Petición enviada (puede que no haya retornado respuesta por no-cors)"))
+            .catch(err => alert("Error de fetch: " + err));
+        });
+    </script>
 </body>
 </html>
